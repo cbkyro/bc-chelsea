@@ -1,0 +1,24 @@
+---
+carousel: true
+products:
+  featured:
+    limit: 12
+---
+
+{{#partial "page"}}
+
+  {{> components/common/shipping-messages}}
+
+  {{#if carousel}}
+    {{inject 'carouselDelay' carousel.swap_frequency}}
+    {{> components/carousel}}
+  {{/if}}
+  {{{snippet 'home_content'}}}
+
+  <div class="home">
+    {{> components/products/products-featured products=products.featured quick_shop=../theme_settings.product-quick-shop}}
+  </div>
+
+{{/partial}}
+
+{{> layout/base}}

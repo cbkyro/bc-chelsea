@@ -1,0 +1,11 @@
+/*! Theme: Chelsea v1.18.6 */
+.header-logo {
+  display: block;
+  width: 200px;
+
+  > a {
+    display: inline-block;
+
+    > img { width: 100%; }
+  }
+}

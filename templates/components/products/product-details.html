@@ -1,0 +1,135 @@
+
+<div data-product-details data-product-title="{{product.title}}">
+
+  <form
+    class="form product-form"
+    method="post"
+    action="{{product.cart_url}}"
+    data-product-options-count="{{product.options.length}}"
+    enctype="multipart/form-data"
+    data-cart-item-add
+  >
+    <input type="hidden" name="action" value="add">
+    <input
+      type="hidden"
+      name="product_id"
+      value="{{product.id}}"
+      data-product-id
+    >
+
+    {{#if product.brand.name.length}}
+      {{#if product.brand.url}}
+        <a class="product-vendor" href="{{product.brand.url}}">
+          {{product.brand.name}}
+        </a>
+      {{else}}
+        <span class="product-vendor">{{product.brand.name}}</span>
+      {{/if}}
+    {{/if}}
+
+    <h1 class="page-title">{{product.title}}</h1>
+
+    {{> components/products/price
+      price=product.price
+      show_savings=true
+      show_tax_labels=true
+      call_for_price=product.call_for_price
+    }}
+
+    {{{snippet 'product_details'}}}
+
+    <div class="product-info">
+      {{> components/products/additional-info}}
+    </div>
+
+    {{# if product.num_reviews ">" 0}}
+      <div class="form-field product-rating">
+        {{> components/products/ratings
+          rating=product.rating
+          aggregate=true
+        }}
+        {{{snippet 'product_rating'}}}
+      </div>
+    {{/if}}
+
+    {{#if product.show_quantity_input}}
+      <div class="form-field product-quantity-wrapper" data-product-quantity>
+        <label class="form-label">
+          <span class="form-field-title">{{lang 'product.quantity'}}</span>
+          {{> components/common/quantity product}}
+        </label>
+      </div>
+    {{/if}}
+
+    {{#if product.options}}
+      <div class="product-options" data-product-option-change>
+        {{#each product.options}}
+          {{{dynamicComponent 'core/forms/options'}}}
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if product.event_date}}
+      {{> core/products/event}}
+    {{/if}}
+
+    {{#if product.customizations}}
+      <div class="product-customizations" data-product-option-change>
+        {{#each product.customizations}}
+          {{{dynamicComponent 'core/forms/customizations'}}}
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{#if product.out_of_stock}}
+      {{#if product.out_of_stock_message}}
+        {{ product.out_of_stock_message }}
+      {{else}}
+        {{ lang 'product.sold_out' }}
+      {{/if}}
+    {{/if}}
+
+    {{#if product.release_date}}
+      <div class="form-field pre-order-message">
+        {{product.release_date}}
+      </div>
+    {{/if}}
+
+    {{#if product.can_purchase}}
+      <div class="form-field form-submit-wrapper" data-product-add>
+        {{#if product.pre_order}}
+          <input
+            class="button pre-order"
+            type="submit"
+            value="{{lang 'product.pre_order'}}"
+            data-button-purchase
+            data-button-preorder
+          >
+        {{else}}
+          <input
+            class="button"
+            type="submit"
+            value="{{lang 'product.add_to_cart'}}"
+            data-button-purchase
+          >
+        {{/if}}
+
+        {{#if settings.show_wishlist}}
+          <a
+            class="button inverted"
+            href="{{product.add_to_wishlist_url}}"
+            data-wishlist-add
+          >
+            {{lang 'product.add_to_wishlist'}}
+          </a>
+        {{/if}}
+
+        <span class="loading"></span>
+      </div>
+      {{{snippet 'product_addtocart'}}}
+
+      <div class="product-alert" data-product-cart-message></div>
+      <div class="product-alert" data-product-option-message></div>
+    {{/if}}
+  </form>
+</div>
